@@ -1,4 +1,5 @@
 import time
+from selenium.webdriver.common.action_chains import ActionChains
 from Selenium2Library.keywords import *
 
 class _ElementKeyWordsPlus(_ElementKeywords):
@@ -54,6 +55,27 @@ class _ElementKeyWordsPlus(_ElementKeywords):
                 li.append(el.text)
         return "\n".join(li)
 
+
+    def drag_and_drop(self, source, target):
+        """Drags element identified with locator 'source' onto the element
+        identified by the locator 'target'
+        """
+        self._info("drag_and_drop %s" % locator)
+        element = self._element_find(source,True,True)
+        target_elem =  self._element_find(target,True,True)
+        ActionChains(self.s2l._current_browser()).drag_and_drop(element, target_elem).perform()
+
+    def drag_and_drop_with_offset(self, source, target, xoffset, yoffset):
+        """Drags element identified with 'source' locator onto the
+        target element identified by the target locator.
+        Before dropping, move to the offset specified
+        """
+        self._info("drag_and_drop_with_offset %s" % locator)
+        element = self._element_find(source,True,True)
+        target_elem =  self._element_find(target,True,True)
+        ActionChains(self._current_browser()).click_and_hold(
+            element).move_to_element_with_offset(
+            target_elem, xoffset, yoffset).perform()
 
 if __name__ == '__main__':
     a=_ElementKeyWordsPlus
